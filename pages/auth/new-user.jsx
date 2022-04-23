@@ -1,25 +1,22 @@
-import { Fragment, useRef, useState } from 'react'
+import { Fragment, useRef, useState, useEffect } from 'react'
 
 import Link from 'next/link'
-import { useRouter } from 'next/router'
-import { getSession, signIn, useSession } from 'next-auth/react'
+import { useSession } from 'next-auth/react'
 import { reloadSession } from '@utils/helper'
 
 import { Dialog, Transition } from '@headlessui/react'
 import { CheckIcon } from '@heroicons/react/outline'
 
 const NewUser = () => {
-  const router = useRouter()
   const { data: session } = useSession()
-  console.log(session)
+  const [username, setUsername] = useState('')
   const [usernameError, setUsernameError] = useState(null)
-  const [open, setOpen] = useState(true)
+  const [formError, setFormError] = useState(null)
+  const [open] = useState(true)
   const cancelButtonRef = useRef(null)
-  const timer = useRef(null)
 
   const checkUsername = async username => {
-    console.log(username)
-    const response = await fetch(`/api/auth/username?value=${username}`)
+    const response = await fetch(`/api/auth/username?username=${username}`)
     const { error } = await response.json()
     if (response.ok) {
       setUsernameError(null)
@@ -28,12 +25,18 @@ const NewUser = () => {
     setUsernameError(error)
   }
 
+  useEffect(() => {
+    if (!username) return
+    const timer = setTimeout(() => checkUsername(username), 500)
+    return () => clearTimeout(timer)
+  }, [username])
+
   const handleClose = () => {}
 
   const handleChange = e => {
-    const value = e.target.value
-    clearTimeout(timer.current)
-    timer.current = setTimeout(() => checkUsername(value), 500)
+    const { value } = e.target
+    setUsername(value.trim())
+    if (!value) setUsernameError(null)
   }
 
   const handleSubmit = async e => {
@@ -44,19 +47,22 @@ const NewUser = () => {
     const name = formData.get('name')
     const username = formData.get('username')
 
-    const response = await fetch(`/api/users/update`, {
-      method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ email: session.user.email, name, username }),
-    })
+    try {
+      const response = await fetch(`/api/users/update`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email: session.user.email, name, username }),
+      })
 
-    const { error } = await response.json()
-    if (!error) {
+      const { error } = await response.json()
+      if (error) throw error
+      setUsernameError(null)
       reloadSession()
+    } catch (error) {
+      setFormError(error.message)
     }
-    console.log(error)
   }
 
   return (
@@ -129,12 +135,12 @@ const NewUser = () => {
               >
                 <div className='sm:flex sm:items-start'>
                   <div className='mt-3 w-full text-left sm:mt-0'>
-                    <Dialog.Title
-                      as='h3'
-                      className='mb-6 text-lg font-medium leading-6 text-gray-900'
-                    >
+                    <Dialog.Title as='h3' className='text-lg font-medium leading-6 text-gray-900'>
                       Complete Your Registration
                     </Dialog.Title>
+                    {formError && (
+                      <div className='mb-6 text-sm font-light text-red-400'>{formError}</div>
+                    )}
                     <div className='mt-5 md:col-span-2'>
                       <form onSubmit={handleSubmit}>
                         <div className='grid grid-cols-6 gap-6'>
@@ -150,9 +156,14 @@ const NewUser = () => {
                                 type='text'
                                 name='name'
                                 id='name'
+                                min='3'
+                                max='15'
                                 autoComplete='full-name'
                                 className='mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm'
                               />
+                              <p className='mt-1 text-xs font-light italic text-zinc-400'>
+                                Should be min 3 and max 15 characters
+                              </p>
                             </div>
                           )}
 
@@ -167,12 +178,18 @@ const NewUser = () => {
                               type='text'
                               name='username'
                               id='username'
+                              min='3'
+                              max='15'
                               autoComplete='email'
+                              value={username}
                               onChange={handleChange}
                               className='mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm'
                             />
+                            <p className='mt-1 text-xs font-light italic text-zinc-400'>
+                              Should be min 3 and max 15 characters
+                            </p>
                             {usernameError && (
-                              <div className='text-sm text-red-400'>
+                              <div className='text-xs font-light text-red-400'>
                                 {usernameError || 'Something went wrong'}
                               </div>
                             )}

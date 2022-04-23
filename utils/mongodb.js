@@ -17,7 +17,7 @@ async function init() {
 /// USERS ///
 /////////////
 
-export async function findUser(email) {
+export async function findUserByEmail(email) {
   try {
     await init()
     const users = await db.collection('users')
@@ -28,6 +28,20 @@ export async function findUser(email) {
     return { user: { ...user, _id: user._id.toString() } }
   } catch (error) {
     return { error: 'Failed to find the user.' }
+  }
+}
+
+export async function findUserByUsername(username) {
+  try {
+    await init()
+    const users = await db.collection('users')
+    const user = await users.findOne({ username })
+
+    if (!user) return { user: null }
+
+    return { user: { ...user, _id: user._id.toString() } }
+  } catch (error) {
+    throw error
   }
 }
 

@@ -5,7 +5,7 @@ import LinkedInProvider from 'next-auth/providers/linkedin'
 
 import clientPromise from '@lib/mongodb'
 import { MongoDBAdapter } from '@next-auth/mongodb-adapter'
-import { findUser } from '@utils/mongodb'
+import { findUserByEmail } from '@utils/mongodb'
 
 export default NextAuth({
   providers: [
@@ -38,13 +38,13 @@ export default NextAuth({
         token.username = user.username
         return token
       }
-      const { user: userFromDB } = await findUser(token.email)
+      const { user: userFromDB } = await findUserByEmail(token.email)
       token.name = userFromDB.name
       token.picture = userFromDB.image
       token.username = userFromDB.username
       return token
     },
-    async session({ session, token, user }) {
+    async session({ session, token }) {
       session.user.name = token.name
       session.user.username = token.username
       session.user.image = token.picture
