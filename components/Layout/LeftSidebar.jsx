@@ -1,6 +1,13 @@
 import Link from 'next/link'
 import NavLink from '../Utils/NavLink'
-import { HomeIcon, SearchIcon, BellIcon, MailIcon } from '@heroicons/react/outline'
+import {
+  HomeIcon,
+  ThumbUpIcon,
+  EmojiHappyIcon,
+  MailIcon,
+  LogoutIcon,
+} from '@heroicons/react/outline'
+import ProfileIcon from '@components/Icons/ProfileIcon'
 
 const LeftSidebar = () => {
   return (
@@ -21,31 +28,31 @@ const LeftSidebar = () => {
         <span className='hidden text-lg xl:block'>Home</span>
       </NavLink>
       <NavLink
-        href='/search'
+        href='/following'
         className='flex items-center justify-start gap-3 rounded-full px-2 py-2 transition-colors hover:bg-zinc-200 xl:px-4'
         activeClass='text-zinc-800 font-medium'
         inactiveClass='text-zinc-500'
       >
-        <SearchIcon className='h-8 w-8' />
-        <span className='hidden text-lg xl:block'>Explore</span>
+        <ThumbUpIcon className='h-8 w-8' />
+        <span className='hidden text-lg xl:block'>Following</span>
       </NavLink>
       <NavLink
-        href='/notifications'
+        href='/profile'
         className='flex items-center justify-start gap-3 rounded-full px-2 py-2 transition-colors hover:bg-zinc-200 xl:px-4'
         activeClass='text-zinc-800 font-medium'
         inactiveClass='text-zinc-500'
       >
-        <BellIcon className='h-8 w-8' />
-        <span className='hidden text-lg xl:block'>Notifications</span>
+        <EmojiHappyIcon className='h-8 w-8' />
+        <span className='hidden text-lg xl:block'>Profile</span>
       </NavLink>
       <NavLink
-        href='/inbox'
+        href='/api/auth/signout'
         className='flex items-center justify-start gap-3 rounded-full px-2 py-2 transition-colors hover:bg-zinc-200 xl:px-4'
         activeClass='text-zinc-800 font-medium'
         inactiveClass='text-zinc-500'
       >
-        <MailIcon className='h-8 w-8' />
-        <span className='hidden text-lg xl:block'>Messages</span>
+        <LogoutIcon className='h-8 w-8' />
+        <span className='hidden text-lg xl:block'>Logout</span>
       </NavLink>
     </section>
   )

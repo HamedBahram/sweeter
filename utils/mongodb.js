@@ -16,3 +16,29 @@ async function init() {
 /////////////
 /// USERS ///
 /////////////
+
+export async function findUser(email) {
+  try {
+    await init()
+    const users = await db.collection('users')
+    const user = await users.findOne({ email })
+
+    if (!user) throw new Error()
+
+    return { user: { ...user, _id: user._id.toString() } }
+  } catch (error) {
+    return { error: 'Failed to find the user.' }
+  }
+}
+
+export async function updateUser(email, update) {
+  try {
+    await init()
+    const users = await db.collection('users')
+    await users.updateOne({ email }, { $set: update })
+
+    return { success: true }
+  } catch (error) {
+    return { error: 'Failed to reset the password.' }
+  }
+}

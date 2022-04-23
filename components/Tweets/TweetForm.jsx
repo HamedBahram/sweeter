@@ -1,11 +1,20 @@
+/* eslint-disable @next/next/no-img-element */
+import { useSession } from 'next-auth/react'
+import avatar from '@public/assets/img/avatar.svg'
 import Image from 'next/image'
-import avatar from '../../public/assets/img/hamed.jpg'
 
 const TweetForm = () => {
+  const { data: session } = useSession()
+  const { image } = session.user
+
   return (
     <div className='flex items-start space-x-4 p-4'>
       <div className='h-10 w-10 rounded-full'>
-        <Image src={avatar} alt='' className='rounded-full' />
+        {image ? (
+          <img src={image} alt='' className='rounded-full' />
+        ) : (
+          <Image src={avatar} alt='' className='rounded-full' />
+        )}
       </div>
       <div className='min-w-0 flex-1'>
         <form action='#'>

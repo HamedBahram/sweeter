@@ -3,7 +3,7 @@ import { useRouter } from 'next/router'
 
 const NavLink = ({ href, className, activeClass, inactiveClass, children, ...rest }) => {
   const router = useRouter()
-  const isMatch = router.asPath === href
+  const isMatch = router.pathname === href
 
   const classes = isMatch ? `${className} ${activeClass}` : `${className} ${inactiveClass}`
 
