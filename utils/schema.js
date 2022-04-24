@@ -12,3 +12,8 @@ export const userSchema = object({
   image: string().trim().url('Image should be a valid URL'),
   email: string().email('Please provide a valid email').trim().required('Email is required'),
 })
+
+export const tweetSchema = object({
+  userId: string().required('userId is required'),
+  text: string().trim().max(280, 'Text should be 280 characters maximum'),
+})

@@ -27,7 +27,9 @@ const Tweet = ({ tweet }) => {
             </span>
           </p>
 
-          <p className='text-sm'>{tweet.text}</p>
+          <p className='text-sm' style={{ overflowWrap: 'break-word' }}>
+            {tweet.text}
+          </p>
 
           <div className='mt-2 flex justify-between text-zinc-500'>
             <svg viewBox='0 0 24 24' className='h-5 w-5 fill-current'>

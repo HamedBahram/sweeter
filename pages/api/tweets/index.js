@@ -1,4 +1,5 @@
 import { addTweet, getTweet, getNewsFeed } from '@utils/mongodb'
+import { tweetSchema } from '@utils/schema'
 import { ObjectId } from 'mongodb'
 import { getSession } from 'next-auth/react'
 
@@ -19,7 +20,11 @@ const handler = async (req, res) => {
   if (req.method === 'POST') {
     const { userId, text } = req.body
 
-    // validate (max 280 characters)
+    try {
+      await tweetSchema.validate({ userId, text })
+    } catch (error) {
+      return res.status(422).json({ error: { path: error.path, message: error.errors[0] } })
+    }
 
     const newTweet = {
       userId: ObjectId(userId),
