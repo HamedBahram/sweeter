@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from 'react'
 import { useSession } from 'next-auth/react'
 import { reloadSession } from '@utils/helper'
 import { toast } from 'react-toastify'
+import LoadingSpinner from '@components/Utils/LoadingSpinner'
 
 const Profile = () => {
   const { data: session } = useSession()
@@ -15,6 +16,7 @@ const Profile = () => {
   const [usernameError, setUsernameError] = useState(null)
   const [usernameTouched, setUsernameTouched] = useState(false)
 
+  const [loading, setLoading] = useState(false)
   const [formError, setFormError] = useState(null)
 
   const checkUsername = useCallback(
@@ -62,6 +64,8 @@ const Profile = () => {
     const username = formData.get('username')
 
     try {
+      setLoading(true)
+      setFormError(null)
       const response = await fetch(`/api/users/update`, {
         method: 'PATCH',
         headers: {
@@ -73,7 +77,6 @@ const Profile = () => {
       const { error } = await response.json()
       if (error) throw error
       setUsernameError(null)
-      setFormError(null)
       setNameTouched(false)
       setUsernameTouched(false)
       reloadSession()
@@ -81,6 +84,8 @@ const Profile = () => {
     } catch (error) {
       setFormError(error.message)
     }
+
+    setLoading(false)
   }
 
   return (
@@ -159,7 +164,7 @@ const Profile = () => {
                 disabled={Boolean(usernameError) || (!nameTouched && !usernameTouched)}
                 className='w-full rounded-3xl border border-transparent bg-blue-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:bg-blue-200 sm:w-auto sm:text-sm'
               >
-                Update Info
+                {loading ? <LoadingSpinner className='h-4 w-4 border-white' /> : 'Update Info'}
               </button>
             </div>
           </form>

@@ -15,16 +15,16 @@
 }
 
 :root {
-  --toastify-color-light: #000;
+  --toastify-color-light: #3b82f6;
   --toastify-color-dark: #fff;
   --toastify-color-info: #3b82f6;
-  --toastify-color-success: #22c55e;
+  --toastify-color-success: #fff;
   --toastify-color-warning: #f1c40f;
   --toastify-color-error: #e74c3c;
 
   --toastify-toast-background: #fff;
 
-  --toastify-text-color-light: #fff;
+  --toastify-text-color-light: #f4f4f5;
   --toastify-text-color-dark: #757575;
 }
 
