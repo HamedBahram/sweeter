@@ -1,21 +1,15 @@
 /* eslint-disable @next/next/no-img-element */
-
-import { parseISO, format } from 'date-fns'
 import Image from 'next/image'
-
+import { parseISO, format } from 'date-fns'
 import avatar from '@public/assets/img/avatar.svg'
-import { useSession } from 'next-auth/react'
 
 const Tweet = ({ tweet }) => {
-  const { data: session } = useSession()
-  const { image } = session.user
-
   return (
     <li className='border-b border-gray-200 px-4 py-3'>
       <div className='flex gap-3'>
         <div className='h-10 w-10 rounded-full'>
-          {image ? (
-            <img src={image} alt='' className='rounded-full' />
+          {tweet.user.image ? (
+            <img src={tweet.user.image} alt='' className='rounded-full' />
           ) : (
             <Image src={avatar} alt='' className='rounded-full' />
           )}
@@ -24,12 +18,12 @@ const Tweet = ({ tweet }) => {
         <div className='flex min-w-0 flex-1 flex-col'>
           <p className='flex text-sm'>
             <span className='truncate text-zinc-500'>
-              <span className='font-bold text-zinc-900'>{tweet.name}</span>{' '}
-              <span className='pl-1 text-zinc-500'>@{tweet.username}</span>
+              <span className='font-bold text-zinc-900'>{tweet.user.name}</span>{' '}
+              <span className='pl-1 text-zinc-500'>@{tweet.user.username}</span>
             </span>
             <span className='shrink-0'>
               <span className='px-1 text-zinc-500'>·</span>
-              <span className='text-zinc-500'>{format(parseISO(tweet.date), 'MMM d')}</span>
+              <span className='text-zinc-500'>{format(parseISO(tweet.updatedAt), 'MMM d')}</span>
             </span>
           </p>
 

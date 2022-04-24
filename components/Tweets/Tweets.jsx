@@ -2,7 +2,7 @@ import Link from 'next/link'
 import Tweet from './Tweet'
 import TweetForm from './TweetForm'
 
-const Tweets = ({ tweets }) => {
+const Tweets = ({ tweets = [] }) => {
   return (
     <>
       <TweetForm />
@@ -11,7 +11,7 @@ const Tweets = ({ tweets }) => {
       </Link>
       <ul>
         {tweets.map(tweet => (
-          <Tweet key={tweet.date} tweet={tweet} />
+          <Tweet key={tweet._id} tweet={tweet} />
         ))}
       </ul>
     </>

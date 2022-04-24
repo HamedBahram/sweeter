@@ -42,12 +42,14 @@ export default NextAuth({
       token.name = userFromDB.name
       token.picture = userFromDB.image
       token.username = userFromDB.username
+      token.userId = userFromDB._id
       return token
     },
     async session({ session, token }) {
       session.user.name = token.name
       session.user.username = token.username
       session.user.image = token.picture
+      session.user.userId = token.userId
       return session
     },
   },

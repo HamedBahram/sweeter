@@ -1,10 +1,14 @@
+import { useRouter } from 'next/router'
 import { useSession } from 'next-auth/react'
+
+import { ToastContainer, Bounce } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
+
 import Header from './Header'
 import Footer from './Footer'
 import LeftSidebar from './LeftSidebar'
 import RightSidebar from './RightSidebar'
 import LoadingSkeleton from './LoadingSkeleton'
-import { useRouter } from 'next/router'
 
 const Layout = ({ title, children }) => {
   const router = useRouter()
@@ -19,7 +23,7 @@ const Layout = ({ title, children }) => {
   }
 
   return (
-    <div className='mx-auto flex max-w-6xl'>
+    <div className='mx-auto flex max-w-7xl'>
       <LeftSidebar />
       <section className='main flex h-screen w-screen grow-3 flex-col border-x sm:w-auto'>
         <Header title={title} />
@@ -27,6 +31,7 @@ const Layout = ({ title, children }) => {
         <Footer />
       </section>
       <RightSidebar />
+      <ToastContainer position='top-right' transition={Bounce} />
     </div>
   )
 }

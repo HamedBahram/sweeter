@@ -1,4 +1,4 @@
-import { Fragment, useRef, useState, useEffect } from 'react'
+import { Fragment, useRef, useState, useEffect, useCallback } from 'react'
 
 import Link from 'next/link'
 import { useSession } from 'next-auth/react'
@@ -15,7 +15,7 @@ const NewUser = () => {
   const [open] = useState(true)
   const cancelButtonRef = useRef(null)
 
-  const checkUsername = async username => {
+  const checkUsername = useCallback(async username => {
     const response = await fetch(`/api/auth/username?username=${username}`)
     const { error } = await response.json()
     if (response.ok) {
@@ -23,13 +23,13 @@ const NewUser = () => {
     }
 
     setUsernameError(error)
-  }
+  }, [])
 
   useEffect(() => {
     if (!username) return
     const timer = setTimeout(() => checkUsername(username), 500)
     return () => clearTimeout(timer)
-  }, [username])
+  }, [username, checkUsername])
 
   const handleClose = () => {}
 
@@ -59,6 +59,7 @@ const NewUser = () => {
       const { error } = await response.json()
       if (error) throw error
       setUsernameError(null)
+      setFormError(null)
       reloadSession()
     } catch (error) {
       setFormError(error.message)
@@ -157,12 +158,12 @@ const NewUser = () => {
                                 name='name'
                                 id='name'
                                 min='3'
-                                max='15'
+                                max='20'
                                 autoComplete='full-name'
                                 className='mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm'
                               />
                               <p className='mt-1 text-xs font-light italic text-zinc-400'>
-                                Should be min 3 and max 15 characters
+                                Should be min 3 and max 20 characters
                               </p>
                             </div>
                           )}
@@ -179,14 +180,14 @@ const NewUser = () => {
                               name='username'
                               id='username'
                               min='3'
-                              max='15'
+                              max='20'
                               autoComplete='email'
                               value={username}
                               onChange={handleChange}
                               className='mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm'
                             />
                             <p className='mt-1 text-xs font-light italic text-zinc-400'>
-                              Should be min 3 and max 15 characters
+                              Should be min 3 and max 20 characters
                             </p>
                             {usernameError && (
                               <div className='text-xs font-light text-red-400'>
@@ -198,7 +199,8 @@ const NewUser = () => {
                         <div className='mt-6 flex justify-start sm:mt-8'>
                           <button
                             type='submit'
-                            className='w-full rounded-md border border-transparent bg-blue-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 sm:w-auto sm:text-sm'
+                            disabled={Boolean(usernameError)}
+                            className='w-full rounded-md border border-transparent bg-blue-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:bg-blue-200 sm:w-auto sm:text-sm'
                           >
                             Complete Registration
                           </button>

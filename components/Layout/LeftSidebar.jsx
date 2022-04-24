@@ -4,10 +4,9 @@ import {
   HomeIcon,
   ThumbUpIcon,
   EmojiHappyIcon,
-  MailIcon,
+  SearchIcon,
   LogoutIcon,
 } from '@heroicons/react/outline'
-import ProfileIcon from '@components/Icons/ProfileIcon'
 
 const LeftSidebar = () => {
   return (
@@ -35,6 +34,15 @@ const LeftSidebar = () => {
       >
         <ThumbUpIcon className='h-8 w-8' />
         <span className='hidden text-lg xl:block'>Following</span>
+      </NavLink>
+      <NavLink
+        href='/explore'
+        className='flex items-center justify-start gap-3 rounded-full px-2 py-2 transition-colors hover:bg-zinc-200 lg:hidden xl:px-4'
+        activeClass='text-zinc-800 font-medium'
+        inactiveClass='text-zinc-500'
+      >
+        <SearchIcon className='h-8 w-8' />
+        <span className='hidden text-lg xl:block'>Explore</span>
       </NavLink>
       <NavLink
         href='/profile'
