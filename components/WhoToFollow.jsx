@@ -1,20 +1,13 @@
 /* eslint-disable @next/next/no-img-element */
-import useSWR, { useSWRConfig } from 'swr'
+import { useSWRConfig } from 'swr'
 import Image from 'next/image'
-import { fetcher } from '@utils/fetcher'
 import { useSession } from 'next-auth/react'
 import avatar from '@public/assets/img/avatar.svg'
 
-const WhoToFollow = ({ className }) => {
+const WhoToFollow = ({ users, title, className }) => {
   const { data: session } = useSession()
   const { userId } = session.user
-  const { data, error } = useSWR('/api/users', fetcher)
   const { mutate } = useSWRConfig()
-
-  if (error) return <div>Failed to fetch users!</div>
-  if (!data) return <div>Loading suggestions...</div>
-
-  const { users = [] } = data
 
   const handleFollow = async userId => {
     try {
@@ -51,7 +44,7 @@ const WhoToFollow = ({ className }) => {
 
   return (
     <div className={className}>
-      <h2 className='mb-5 text-xl font-bold'>Who to Follow</h2>
+      <h2 className='mb-5 text-xl font-bold'>{title}</h2>
       <ul className='flex flex-col gap-4'>
         {users
           .filter(user => user._id !== userId)
@@ -61,7 +54,11 @@ const WhoToFollow = ({ className }) => {
               <li className='flex items-center justify-between gap-3' key={user.username}>
                 <div className='h-10 w-10 rounded-full'>
                   {user.image ? (
-                    <img src={user.image} alt='' className='rounded-full' />
+                    <img
+                      src={user.image}
+                      alt=''
+                      className='h-full w-full rounded-full object-cover object-center'
+                    />
                   ) : (
                     <Image src={avatar} alt='' className='rounded-full' />
                   )}

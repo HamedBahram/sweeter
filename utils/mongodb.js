@@ -111,6 +111,20 @@ export async function unFollowUser(userId, myId) {
   }
 }
 
+export async function getUserFollowing(userId) {
+  try {
+    await init()
+    const users = await db.collection('users')
+    const result = await users
+      .find({ followers: ObjectId(userId) })
+      .map(user => ({ ...user, _id: user._id.toString() }))
+      .toArray()
+    return { users: result }
+  } catch (error) {
+    return { error }
+  }
+}
+
 //////////////
 /// Tweets ///
 //////////////
