@@ -7,9 +7,9 @@ const SignInPage = () => {
   const router = useRouter()
   const { error: errorType } = router.query
 
-  const [callbackUrl, setCallbackUrl] = useState('http://localhost:3000')
+  const [callbackUrl, setCallbackUrl] = useState('https://sweeter-zeta.vercel.app')
   useEffect(() => {
-    const path = router.query.redirectUrl || 'http://localhost:3000'
+    const path = router.query.redirectUrl || 'https://sweeter-zeta.vercel.app'
     setCallbackUrl(path)
   }, [router])
 
