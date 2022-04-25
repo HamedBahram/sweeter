@@ -41,7 +41,7 @@ const SignInPage = () => {
   }
 
   return (
-    <section className='h-screen w-screen bg-zinc-800 text-white'>
+    <section className='h-screen w-screen bg-zinc-800 p-4 text-white'>
       <div className='flex h-full items-center justify-center'>
         <div className=''>
           <h1 className='mb-6 text-6xl font-extrabold'>Happening Now</h1>
