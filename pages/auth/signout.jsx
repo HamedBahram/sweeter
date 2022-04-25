@@ -53,7 +53,7 @@ const SignOutPage = () => {
                   </div>
                   <div className='mt-6 mb-4'>
                     <button
-                      onClick={() => signOut()}
+                      onClick={() => signOut({ callbackUrl: '/' })}
                       className='w-full rounded-3xl border border-transparent bg-blue-600 py-1.5 px-4 font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 sm:w-auto sm:text-sm'
                     >
                       Sign Out
