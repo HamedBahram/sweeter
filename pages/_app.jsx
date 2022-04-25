@@ -5,9 +5,13 @@ import '../styles/globals.css'
 function App({ Component, pageProps }) {
   return (
     <SessionProvider session={pageProps.session}>
-      <Layout title={Component.title}>
+      {Component.authpage ? (
         <Component {...pageProps} />
-      </Layout>
+      ) : (
+        <Layout title={Component.title}>
+          <Component {...pageProps} />
+        </Layout>
+      )}
     </SessionProvider>
   )
 }
