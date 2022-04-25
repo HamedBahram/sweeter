@@ -8,10 +8,10 @@ const Tweets = ({ tweets = [] }) => {
   return (
     <>
       <TweetForm />
-      <div>
+      <div className='w-full'>
         <button
           onClick={() => mutate('/api/tweets')}
-          className='block border-y p-3 text-center font-medium text-blue-500'
+          className='block w-full border-y p-3 text-center font-medium text-blue-500'
         >
           Show More Sweets
         </button>
