@@ -12,7 +12,7 @@ import LoadingSkeleton from './LoadingSkeleton'
 
 const Layout = ({ title, children }) => {
   const router = useRouter()
-  const { data: session, status } = useSession()
+  const { data: session, status } = useSession({ required: true })
 
   if (status === 'loading') {
     return <LoadingSkeleton />
