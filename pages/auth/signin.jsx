@@ -1,17 +1,30 @@
-import { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import { signIn } from 'next-auth/react'
 
-const SignInPage = () => {
-  const [email, setEmail] = useState('')
-  const router = useRouter()
-  const { error: errorType } = router.query
+import { useFormik } from 'formik'
+import * as yup from 'yup'
 
-  const [callbackUrl, setCallbackUrl] = useState('/')
-  useEffect(() => {
-    const path = router.query.redirectUrl || '/'
-    setCallbackUrl(path)
-  }, [router])
+const SignInPage = () => {
+  const router = useRouter()
+  const { callbackUrl = '/', error: errorType } = router.query
+
+  const {
+    touched,
+    errors: formErrors,
+    getFieldProps,
+    handleSubmit,
+    isSubmitting,
+  } = useFormik({
+    initialValues: {
+      email: '',
+    },
+    validationSchema: yup.object({
+      email: yup.string().email('Invalid email address').required('Email is required'),
+    }),
+    onSubmit: ({ email }) => {
+      signIn('email', { email, callbackUrl })
+    },
+  })
 
   const errors = {
     Signin: 'Try signing in with a different account.',
@@ -35,23 +48,18 @@ const SignInPage = () => {
       ? errors[errorType]
       : errors.default
 
-  const handleSubmit = e => {
-    e.preventDefault()
-    signIn('email', { email, callbackUrl })
-  }
-
   return (
     <section className='h-screen w-screen bg-zinc-800 p-4 text-white'>
       <div className='flex h-full items-center justify-center'>
         <div className=''>
-          <h1 className='mb-6 text-6xl font-extrabold'>Happening Now</h1>
-          <h2 className='mb-6 text-3xl font-bold'>Join Sweeter Today</h2>
+          <h1 className='mb-4 text-6xl font-extrabold'>Happening Now</h1>
+          <h2 className='mb-10 text-3xl font-bold'>Join Sweeter Today</h2>
           {error && (
             <div className='mb-4 w-full text-lg text-red-400'>
               <p>{error}</p>
             </div>
           )}
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit} noValidate>
             <div className='text-zinc-800'>
               <label
                 className='mx-auto mb-2 block w-full rounded-3xl text-blue-500'
@@ -60,19 +68,23 @@ const SignInPage = () => {
                 Continue with Email
               </label>
               <input
-                className='mx-auto mb-3 block w-full rounded-3xl border border-gray-300 px-6 py-2 focus:outline-none focus:ring focus:ring-blue-400 focus:ring-opacity-50 focus:ring-offset-2'
+                className='mx-auto block w-full rounded-3xl border border-gray-300 px-6 py-2 focus:outline-none focus:ring focus:ring-blue-400 focus:ring-opacity-50 focus:ring-offset-2'
                 type='email'
                 id='email'
-                value={email}
-                onChange={e => setEmail(e.target.value)}
+                name='email'
+                {...getFieldProps('email')}
                 placeholder='email@example.com'
               />
+              {formErrors.email && touched.email && (
+                <div className='mx-2 my-1 text-sm text-red-400'>{formErrors.email}</div>
+              )}
             </div>
             <button
               type='submit'
-              className='mx-auto mb-4 block w-full rounded-3xl bg-blue-500 px-6 py-2 text-white transition hover:opacity-80 focus:outline-none focus:ring focus:ring-blue-400 focus:ring-opacity-50 focus:ring-offset-2'
+              disabled={isSubmitting}
+              className='mx-auto mt-3 mb-4 block w-full rounded-3xl bg-blue-500 px-6 py-2 text-white transition hover:opacity-80 focus:outline-none focus:ring focus:ring-blue-400 focus:ring-opacity-50 focus:ring-offset-2'
             >
-              Continue with Email
+              {isSubmitting ? 'Loading...' : 'Continue with Email'}
             </button>
           </form>
           <div className='mx-auto my-8 flex w-full items-center justify-evenly before:mr-4 before:block before:h-px before:flex-grow before:bg-blue-500 after:ml-4 after:block after:h-px after:flex-grow after:bg-blue-500'>
