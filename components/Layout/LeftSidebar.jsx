@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import Link from 'next/link'
 import NavLink from '../Utils/NavLink'
 import {
@@ -10,9 +9,7 @@ import {
 } from '@heroicons/react/outline'
 import SignoutModal from '@components/auth/SignoutModal'
 
-const LeftSidebar = () => {
-  const [open, setOpen] = useState(false)
-
+const LeftSidebar = ({ open, setOpen }) => {
   return (
     <section className='sm: hidden flex-col items-center p-4 sm:flex sm:gap-4 xl:grow xl:items-start'>
       <Link href='/'>

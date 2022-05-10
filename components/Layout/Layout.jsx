@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { useRouter } from 'next/router'
 import { useSession } from 'next-auth/react'
 
@@ -13,6 +14,7 @@ import LoadingSkeleton from './LoadingSkeleton'
 const Layout = ({ title, children }) => {
   const router = useRouter()
   const { data: session, status } = useSession({ required: true })
+  const [open, setOpen] = useState(false)
 
   if (status === 'loading') {
     return <LoadingSkeleton />
@@ -24,11 +26,11 @@ const Layout = ({ title, children }) => {
 
   return (
     <div className='mx-auto flex max-w-7xl'>
-      <LeftSidebar />
+      <LeftSidebar open={open} setOpen={setOpen} />
       <section className='main flex h-screen w-screen max-w-3xl grow-5 flex-col border-x sm:w-auto'>
         <Header title={title} />
         <main className='flex-1 overflow-auto'>{children}</main>
-        <Footer />
+        <Footer open={open} setOpen={setOpen} />
       </section>
       <RightSidebar />
       <ToastContainer position='top-right' transition={Bounce} />

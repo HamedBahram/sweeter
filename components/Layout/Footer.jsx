@@ -1,3 +1,4 @@
+import SignoutModal from '@components/auth/SignoutModal'
 import {
   HomeIcon,
   SearchIcon,
@@ -7,7 +8,7 @@ import {
 } from '@heroicons/react/outline'
 import NavLink from '../Utils/NavLink'
 
-const Footer = () => {
+const Footer = ({ open, setOpen }) => {
   return (
     <footer className='mx-6 flex items-center justify-between gap-12 border-t py-3 sm:hidden'>
       <NavLink href='/' activeClass='text-blue-500' inactiveClass='text-zinc-500'>
@@ -22,9 +23,10 @@ const Footer = () => {
       <NavLink href='/profile' activeClass='text-blue-500' inactiveClass='text-zinc-500'>
         <EmojiHappyIcon className='h-7 w-7' />
       </NavLink>
-      <NavLink href='/api/auth/signout' activeClass='text-blue-500' inactiveClass='text-zinc-500'>
+      <button onClick={() => setOpen(open => !open)} className='text-zinc-500'>
         <LogoutIcon className='h-7 w-7' />
-      </NavLink>
+      </button>
+      <SignoutModal open={open} setOpen={setOpen} />
     </footer>
   )
 }
