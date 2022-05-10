@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import Link from 'next/link'
 import NavLink from '../Utils/NavLink'
 import {
@@ -7,8 +8,11 @@ import {
   SearchIcon,
   LogoutIcon,
 } from '@heroicons/react/outline'
+import SignoutModal from '@components/auth/SignoutModal'
 
 const LeftSidebar = () => {
+  const [open, setOpen] = useState(false)
+
   return (
     <section className='sm: hidden flex-col items-center p-4 sm:flex sm:gap-4 xl:grow xl:items-start'>
       <Link href='/'>
@@ -53,15 +57,14 @@ const LeftSidebar = () => {
         <EmojiHappyIcon className='h-8 w-8' />
         <span className='hidden text-lg xl:block'>Profile</span>
       </NavLink>
-      <NavLink
-        href='/api/auth/signout'
-        className='flex items-center justify-start gap-3 rounded-full px-2 py-2 transition-colors hover:bg-zinc-200 xl:px-4'
-        activeClass='text-zinc-800 font-medium'
-        inactiveClass='text-zinc-500'
+      <button
+        onClick={() => setOpen(open => !open)}
+        className='flex items-center justify-start gap-3 rounded-full px-2 py-2 text-zinc-500 transition-colors hover:bg-zinc-200 xl:px-4'
       >
         <LogoutIcon className='h-8 w-8' />
         <span className='hidden text-lg xl:block'>Logout</span>
-      </NavLink>
+      </button>
+      <SignoutModal open={open} setOpen={setOpen} />
     </section>
   )
 }

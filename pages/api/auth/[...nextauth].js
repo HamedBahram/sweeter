@@ -56,7 +56,6 @@ export default NextAuth({
   pages: {
     newUser: '/auth/new-user',
     signIn: '/auth/signin',
-    signOut: '/auth/signout',
     verifyRequest: '/auth/verify',
   },
   adapter: MongoDBAdapter(clientPromise),
