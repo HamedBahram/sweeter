@@ -30,7 +30,7 @@ const Layout = ({ title, children }) => {
       <section className='main flex h-screen w-screen max-w-3xl grow-5 flex-col border-x sm:w-auto'>
         <Header title={title} />
         <main className='flex-1 overflow-auto'>{children}</main>
-        <Footer open={open} setOpen={setOpen} />
+        <Footer setOpen={setOpen} />
       </section>
       <RightSidebar />
       <ToastContainer position='top-right' transition={Bounce} />
