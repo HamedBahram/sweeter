@@ -1,7 +1,7 @@
 import { Fragment } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 
-const Modal = ({ open, onClose, title, description, initialFocusRef, children }) => {
+const Modal = ({ open, onClose = f => f, title, description, initialFocusRef, children }) => {
   return (
     <Transition show={open} as={Fragment}>
       <Dialog onClose={onClose} initialFocus={initialFocusRef} className='relative z-10'>
