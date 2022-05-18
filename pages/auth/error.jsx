@@ -22,7 +22,7 @@ const ErrorPage = () => {
   return (
     <section className='h-screen w-screen bg-zinc-800 p-4 text-white'>
       <div className='flex h-full items-center justify-center'>
-        <div className='text-start min-w-[40%] rounded-xl border border-blue-500 px-8 py-6 pb-7'>
+        <div className='text-start min-w-[40%] rounded-xl border border-blue-500 px-8 py-6 pb-7 2xl:min-w-[25%]'>
           <h1 className='mb-4 text-3xl font-bold'>Unable to sign in</h1>
           <div className='mb-6 text-lg text-zinc-500'>
             <p>{message}</p>

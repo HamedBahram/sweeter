@@ -52,7 +52,7 @@ const SignInForm = () => {
 
   const error = getErrorMessage(errorType)
   return (
-    <div className='max-w-[40%]'>
+    <div>
       {error && (
         <div className='mb-4 w-full rounded border border-red-400 p-4 text-lg font-light text-red-400'>
           <p>{error}</p>

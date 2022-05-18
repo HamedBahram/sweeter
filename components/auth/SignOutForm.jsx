@@ -9,7 +9,7 @@ const SignOutForm = ({ user }) => {
   const { username, image } = user
 
   return (
-    <div className='text-start min-w-[40%] rounded-xl border border-blue-500 px-8 py-6 pb-7'>
+    <div className='text-start min-w-[40%] rounded-xl border border-blue-500 px-8 py-6 pb-7 2xl:min-w-[25%]'>
       <h1 className='text-3xl font-bold'>You&apos;re Signed in as:</h1>
       <div className='ml-1 mt-6 mb-8 flex items-center gap-3'>
         <div className='h-10 w-10 rounded-full'>
