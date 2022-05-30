@@ -38,6 +38,7 @@ const SignInForm = () => {
     getFieldProps,
     handleSubmit,
     isSubmitting,
+    isValid,
   } = useFormik({
     initialValues: {
       email: '',
@@ -63,7 +64,7 @@ const SignInForm = () => {
       <form onSubmit={handleSubmit} noValidate>
         <div className='text-zinc-800'>
           <input
-            className='mx-auto block w-full rounded-3xl border border-gray-300 px-6 py-2 focus:outline-none focus:ring focus:ring-blue-400 focus:ring-opacity-50 focus:ring-offset-2'
+            className='mx-auto block w-full rounded-3xl border border-gray-300 px-6 py-2 focus:outline-none focus:ring focus:ring-blue-400 focus:ring-offset-2 focus:ring-offset-zinc-800'
             type='email'
             id='email'
             name='email'
@@ -76,8 +77,8 @@ const SignInForm = () => {
         </div>
         <button
           type='submit'
-          disabled={isSubmitting}
-          className='mx-auto mt-3 mb-4 block w-full rounded-3xl bg-blue-500 px-6 py-2 text-white transition hover:opacity-80 focus:outline-none focus:ring focus:ring-blue-400 focus:ring-opacity-50 focus:ring-offset-2'
+          disabled={isSubmitting || !isValid}
+          className='mx-auto mt-3 mb-4 block w-full rounded-3xl bg-blue-600 px-6 py-2 text-white transition hover:bg-blue-700 focus:outline-none focus:ring focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-zinc-800 disabled:cursor-not-allowed disabled:bg-blue-400'
         >
           {isSubmitting ? 'Loading...' : 'Continue with Email'}
         </button>
@@ -86,7 +87,7 @@ const SignInForm = () => {
         or
       </div>
       <button
-        className='mx-auto mb-4 flex w-full justify-center rounded-3xl border border-gray-300 px-6 py-2 transition hover:bg-blue-500 hover:text-white focus:outline-none focus:ring focus:ring-blue-400 focus:ring-opacity-50 focus:ring-offset-2'
+        className='mx-auto mb-4 flex w-full justify-center rounded-3xl border border-gray-300 px-6 py-2 transition hover:bg-blue-500 hover:text-white focus:outline-none focus:ring focus:ring-blue-400 focus:ring-offset-2 focus:ring-offset-zinc-800'
         onClick={() => signIn('google', { callbackUrl })}
       >
         <svg
@@ -107,7 +108,7 @@ const SignInForm = () => {
       </button>
 
       <button
-        className='mx-auto mb-4 flex w-full justify-center rounded-3xl border border-gray-300 px-6 py-2 transition hover:bg-blue-500 hover:text-white focus:outline-none focus:ring focus:ring-blue-400 focus:ring-opacity-50 focus:ring-offset-2'
+        className='mx-auto mb-4 flex w-full justify-center rounded-3xl border border-gray-300 px-6 py-2 transition hover:bg-blue-500 hover:text-white focus:outline-none focus:ring focus:ring-blue-400 focus:ring-offset-2 focus:ring-offset-zinc-800'
         onClick={() => signIn('linkedin', { callbackUrl })}
       >
         <svg
