@@ -65,7 +65,7 @@ export async function findUserByUsername(username) {
   try {
     await init()
     const users = await db.collection('users')
-    const user = await users.findOne({ username })
+    const user = await users.findOne({ username }, { collation: { locale: 'en', strength: 1 } })
 
     if (!user) return { user: null }
 
